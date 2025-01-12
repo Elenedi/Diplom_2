@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import io.qameta.allure.junit4.Tag;
@@ -5,6 +6,8 @@ import io.restassured.response.Response;
 import org.example.operators.OperatorsCheck;
 import org.example.operators.OrderOperators;
 import org.example.operators.UserOperators;
+import org.example.request.Components;
+import org.example.response.ComponentsResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +17,9 @@ import static org.apache.http.HttpStatus.*;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("get order list")
-@Epic("Диплом. Тестирование API.")
-@Feature("Получение списка заказов в сервисе Stellar Burgers")
-@DisplayName("Тест # 5 - Получение списка заказов")
+@Epic("Диплом 2")
+@Feature("Получение списка заказов в Stellar Burgers")
+@DisplayName("Получение списка заказов")
 public class GetOrdersListTest {
     private String email;
     private String password;
@@ -32,7 +35,7 @@ public class GetOrdersListTest {
     @Step("Подготовка тестовых данных")
     public void prepareTestData() {
         this.email = faker.internet().safeEmailAddress();
-        this.password = faker.letterify("?????????");
+        this.password = faker.letterify("12345678");
         this.name = faker.name().firstName();
 
         Response response = userAPI.registerUser(email, password, name);
@@ -42,18 +45,18 @@ public class GetOrdersListTest {
             token = userAPI.getToken(response);
         }
 
-        response = orderAPI.getIngredientList();
+        response = orderAPI.getComponentsList();
         checkResponse.checkStatusCode(response, SC_OK);
-        List<Ingredients> ingredients = response.body().as(IngredientsResponse.class).getData();
+        List<Components> components = response.body().as(ComponentsResponse.class).getData();
 
-        int numberOfIngredients = faker.number().numberBetween(2, 6);
-        List<String> selectedIngredients = new ArrayList<>();
-        for (int i = 0; i < numberOfIngredients; i++) {
-            Ingredients randomIngredient = ingredients.get(faker.number().numberBetween(0, ingredients.size()));
-            selectedIngredients.add(randomIngredient.get_id());
+        int numberOfComponents = faker.number().numberBetween(2, 6);
+        List<String> selectedComponents = new ArrayList<>();
+        for (int i = 0; i < numberOfComponents; i++) {
+            Components randomComponent = components.get(faker.number().numberBetween(0, components.size()));
+            selectedComponents.add(randomComponent.get_id());
         }
 
-        response = orderAPI.createOrder(selectedIngredients, token);
+        response = orderAPI.createOrder(selectedComponents, token);
         checkResponse.checkStatusCode(response, SC_OK);
     }
 
@@ -67,8 +70,8 @@ public class GetOrdersListTest {
 
     @Test
     @DisplayName("Получение всех заказов")
-    @Description("Тест API на получение списка заказов. " +
-            "Ожидаемый результат - список заказов получен.")
+    @Description("Получение списка заказов. " +
+            "ОР - список заказов получен.")
     public void getAllOrdersIsSuccess() {
         Response response = orderAPI.getAllOrderList();
 
@@ -78,8 +81,8 @@ public class GetOrdersListTest {
 
     @Test
     @DisplayName("Получение списка заказов авторизованного пользователя")
-    @Description("Тест API на получение списка заказов авторизованного пользователя. " +
-            "Ожидаемый результат - список заказов получен.")
+    @Description("Получение списка заказов авторизованного пользователя. " +
+            "ОР - список заказов получен.")
     public void getAuthUsersOrdersIsSuccess() {
         Response response = orderAPI.getOrderList(token);
         checkResponse.checkStatusCode(response, SC_OK);
@@ -88,8 +91,8 @@ public class GetOrdersListTest {
 
     @Test
     @DisplayName("Получение списка заказов неавторизованного пользователя")
-    @Description("Тест API на получение списка заказов неавторизованного пользователя. " +
-            "Ожидаемый результат - список заказов не получен, получено сообщение об ошибке.")
+    @Description("Получение списка заказов неавторизованного пользователя. " +
+            "ОР - список заказов не получен, сообщение об ошибке.")
     public void getNotAuthUsersOrdersIsSuccess() {
         Response response = orderAPI.getOrderList("");
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);

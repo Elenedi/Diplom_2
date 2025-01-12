@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import io.qameta.allure.junit4.Tag;
@@ -9,12 +10,13 @@ import org.example.operators.UserOperators;
 import org.example.operators.OperatorsCheck;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
+import org.example.*;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("change user data")
-@Epic("Диплом2. Тестирование API.")
-@Feature("Редактирование данных пользователя в сервисе Stellar Burgers")
-@DisplayName("Тест # 3 - Редактирование данных пользователя")
+@Epic("Диплом 2")
+@Feature("Редактирование данных пользователя в Stellar Burgers")
+@DisplayName("Редактирование данных пользователя")
 public class ChangingDataTest {
     private String email;
     private String password;
@@ -29,7 +31,7 @@ public class ChangingDataTest {
     @Step("Подготовка тестовых данных")
     public void prepareTestData() {
         this.email = faker.internet().safeEmailAddress();
-        this.password = faker.letterify("?????????");
+        this.password = faker.letterify("12345678");
         this.name = faker.name().firstName();
 
         Response response = userAPI.registerUser(email, password, name);
@@ -51,11 +53,11 @@ public class ChangingDataTest {
     }
 
     @Test
-    @DisplayName("Изменение email пользователя: с авторизацией")
-    @Description("Тест API редактирование email авторизованного пользователя. " +
-            "Ожидаемый результат - email изменен")
+    @DisplayName("Изменение email с авторизацией")
+    @Description("Редактирование email авторизованного пользователя. " +
+            "ОР - email изменен")
     public void changeUserEmailWithAuthIsSuccess() {
-        String newEmail = "m_" + faker.internet().safeEmailAddress();
+        String newEmail = "one_" + faker.internet().safeEmailAddress();
 
         Response response = userAPI.updateUser(newEmail, password, name, token);
 
@@ -65,11 +67,11 @@ public class ChangingDataTest {
     }
 
     @Test
-    @DisplayName("Изменение пароля пользователя: с авторизацией")
-    @Description("Тест API редактирование пароля авторизованного пользователя. " +
-            "Ожидаемый результат - пароль изменен")
+    @DisplayName("Изменение пароля с авторизацией")
+    @Description("Редактирование пароля авторизованного пользователя. " +
+            "ОР - пароль изменен")
     public void changeUserPasswordWithAuthIsSuccess() {
-        String newPassword = "p_" + faker.letterify("?????????");
+        String newPassword = "two_" + faker.letterify("12345677");
 
         Response response = userAPI.updateUser(email, newPassword, name, token);
 
@@ -79,11 +81,11 @@ public class ChangingDataTest {
     }
 
     @Test
-    @DisplayName("Изменение имени пользователя: с авторизацией")
-    @Description("Тест API редактирование имени авторизованного пользователя. " +
-            "Ожидаемый результат - имя изменено")
+    @DisplayName("Изменение имени с авторизацией")
+    @Description("Редактирование имени авторизованного пользователя. " +
+            "ОР - имя изменено")
     public void changeUserNameWithAuthIsSuccess() {
-        String newName = "n_" + faker.name().firstName();
+        String newName = "tres_" + faker.name().firstName();
 
         Response response = userAPI.updateUser(email, password, newName, token);
 
@@ -93,11 +95,11 @@ public class ChangingDataTest {
     }
 
     @Test
-    @DisplayName("Изменение email пользователя: без авторизации")
-    @Description("Тест API редактирование email неавторизованного пользователя. " +
-            "Ожидаемый результат - email не изменен, получено сообщение об ошибке")
+    @DisplayName("Изменение email без авторизации")
+    @Description("Редактирование email неавторизованного пользователя. " +
+            "ОР - email не меняется, сообщение об ошибке")
     public void changeUserEmailWithoutAuthIsSuccess() {
-        String newEmail = "m_" + faker.internet().safeEmailAddress();
+        String newEmail = "four_" + faker.internet().safeEmailAddress();
 
         Response response = userAPI.updateUser(newEmail, password, name);
 
@@ -107,11 +109,11 @@ public class ChangingDataTest {
     }
 
     @Test
-    @DisplayName("Изменение пароля пользователя: без авторизации")
-    @Description("Тест API редактирование пароля неавторизованного пользователя. " +
-            "Ожидаемый результат - пароль не изменен, получено сообщение об ошибке")
+    @DisplayName("Изменение пароля без авторизации")
+    @Description("Редактирование пароля неавторизованного пользователя. " +
+            "ОР - пароль не меняется, сообщение об ошибке")
     public void changeUserPasswordWithoutAuthIsSuccess() {
-        String newPassword = "p_" + faker.letterify("?????????");;
+        String newPassword = "five_" + faker.letterify("12345678");;
 
         Response response = userAPI.updateUser(email, newPassword, name);
 
@@ -121,11 +123,11 @@ public class ChangingDataTest {
     }
 
     @Test
-    @DisplayName("Изменение имени пользователя: без авторизации")
-    @Description("Тест API редактирование имени неавторизованного пользователя. " +
-            "Ожидаемый результат - имя не изменено, получено сообщение об ошибке")
+    @DisplayName("Изменение имени без авторизации")
+    @Description("Редактирование имени неавторизованного пользователя. " +
+            "ОР - имя не меняется, сообщение об ошибке")
     public void changeUserNameWithoutAuthIsSuccess() {
-        String newName = "n_" + faker.name().firstName();
+        String newName = "six_" + faker.name().firstName();
 
         Response response = userAPI.updateUser(email, password, newName);
 

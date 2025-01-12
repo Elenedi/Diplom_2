@@ -5,7 +5,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
-import static io.restassured.path.json.JsonPath.given;
 
 public class Basis {
     private RequestSpecification basisRequest() {

@@ -1,8 +1,7 @@
 package org.example.http.client;
 
 import io.restassured.response.Response;
-import org.example.http.client.Basis;
-import org.example.Constants;
+import org.example.*;
 
 public class Order extends Basis {
 
@@ -21,7 +20,7 @@ public class Order extends Basis {
                 "application/json"
         );
     }
-    public Response getIngredientList() {
+    public Response getComponentsList() {
         return doGetRequest(
                 Constants.SERVER_NAME + Constants.INGREDIENTS);
 

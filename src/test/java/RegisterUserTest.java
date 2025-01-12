@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import io.qameta.allure.junit4.Tag;
@@ -10,13 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
-import java.util.List;
+import org.example.*;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("register new user")
-@Epic("Диплом. Тестирование API.")
-@Feature("Создание нового пользователя в сервисе Stellar Burgers")
-@DisplayName("Тест # 1 - Создание нового пользователя")
+@Epic("Диплом 2")
+@Feature("Создание нового пользователя в Stellar Burgers")
+@DisplayName("Создание нового пользователя")
 
 public class RegisterUserTest {
     private String email;
@@ -32,7 +33,7 @@ public class RegisterUserTest {
     @Step("Подготовка тестовых данных")
     public void prepareTestData() {
         this.email = faker.internet().safeEmailAddress();
-        this.password = faker.letterify("?????????");
+        this.password = faker.letterify("12345678");
         this.name = faker.name().firstName();
     }
 
@@ -48,7 +49,8 @@ public class RegisterUserTest {
 
     @Test
     @DisplayName("Регистрация нового пользователя")
-    @Description("Тест API создание нового пользователя. Ожидаемый результат - пользователь создан")
+    @Description("Создание нового пользователя. " +
+            "ОР - пользователь создан")
     public void registerUserIsSuccess() {
         Response response = userAPI.registerUser(email, password, name);
         if (response.getStatusCode() == SC_OK) {
@@ -60,8 +62,8 @@ public class RegisterUserTest {
 
     @Test
     @DisplayName("Регистрация двух пользователей с одинаковыми данными")
-    @Description("Тест API создание двух пользователей с одинаковыми данными. " +
-            "Ожидаемый результат - одинаковых пользователей создать нельзя.")
+    @Description("Создание двух пользователей с одинаковыми данными. " +
+            "ОР - одинаковых пользователей создать нельзя.")
     public void registerSameUserIsFailed() {
         Response responseX = userAPI.registerUser(email, password, name);
         Response responseY = userAPI.registerUser(email, password, name);
@@ -79,7 +81,8 @@ public class RegisterUserTest {
 
     @Test
     @DisplayName("Регистрация пользователя без email")
-    @Description("Тест API регистрация пользователя без email. Ожидаемый результат - пользователя без email создать нельзя")
+    @Description("Регистрация пользователя без email. " +
+            "ОР - пользователя без email создать нельзя")
     public void registerUserWithoutEmailIsFailed() {
         Response response = userAPI.registerUser(null, password, name);
         if (response.getStatusCode() == SC_OK) {
@@ -92,7 +95,8 @@ public class RegisterUserTest {
 
     @Test
     @DisplayName("Регистрация пользователя без пароля")
-    @Description("Тест API регистрация пользователя без пароля. Ожидаемый результат - пользователя без пароля создать нельзя")
+    @Description("Регистрация пользователя без пароля. " +
+            "ОР - пользователя без пароля создать нельзя")
     public void registerUserWithoutPasswordIsFailed() {
         Response response = userAPI.registerUser(email, null, name);
         if (response.getStatusCode() == SC_OK) {
@@ -105,7 +109,8 @@ public class RegisterUserTest {
 
     @Test
     @DisplayName("Регистрация пользователя без имени")
-    @Description("Тест API регистрация пользователя без имени. Ожидаемый результат - пользователя без имени создать нельзя")
+    @Description("Регистрация пользователя без имени. " +
+            "ОР - пользователя без имени создать нельзя")
     public void registerUserWithoutNameIsFailed() {
         Response response = userAPI.registerUser(email, null, name);
         if (response.getStatusCode() == SC_OK) {
@@ -118,7 +123,8 @@ public class RegisterUserTest {
 
     @Test
     @DisplayName("Регистрация пользователя без данных")
-    @Description("Тест API регистрация пользователя без данных. Ожидаемый результат - пользователя без данных создать нельзя")
+    @Description("Регистрация пользователя без данных. " +
+            "ОР - пользователя без данных создать нельзя")
     public void registerUserWithoutDataIsFailed() {
         Response response = userAPI.registerUser(null, null, null);
         if (response.getStatusCode() == SC_OK) {

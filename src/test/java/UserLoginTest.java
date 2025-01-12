@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import io.qameta.allure.junit4.Tag;
@@ -10,13 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
-import java.util.List;
+import org.example.*;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
-@Tag("login user")
-@Epic("Диплом. Тестирование API.")
-@Feature("Логин пользователя в сервисе Stellar Burgers")
-@DisplayName("Тест # 2 - Логин пользователя")
+@Tag("log in user")
+@Epic("Диплом 2")
+@Feature("Логин пользователя в Stellar Burgers")
+@DisplayName("Логин пользователя")
 
 public class UserLoginTest {
     private String email;
@@ -32,7 +33,7 @@ public class UserLoginTest {
     @Step("Подготовка тестовых данных")
     public void prepareTestData() {
         this.email = faker.internet().safeEmailAddress();
-        this.password = faker.letterify("?????????");
+        this.password = faker.letterify("12345678");
         this.name = faker.name().firstName();
 
         Response response = userAPI.registerUser(email, password, name);
@@ -53,7 +54,8 @@ public class UserLoginTest {
 
     @Test
     @DisplayName("Логин пользователя")
-    @Description("Тест API логин пользователя. Ожидаемый результат - пользователь залогинен")
+    @Description("Логин пользователя. " +
+            "ОР - логин зарегистрирован")
     public void loginUserIsSuccess() {
         Response response = userAPI.loginUser(email, password);
 
@@ -63,7 +65,8 @@ public class UserLoginTest {
 
     @Test
     @DisplayName("Логин пользователя без email")
-    @Description("Тест API логин пользователя без email. Ожидаемый результат - пользователь не залогинен")
+    @Description("Тест API логин пользователя без email. " +
+            "ОР - логин не зарегистрирован")
     public void loginUserWithoutEmailIsFailed() {
         Response response = userAPI.loginUser(null, password);
 
@@ -74,7 +77,8 @@ public class UserLoginTest {
 
     @Test
     @DisplayName("Логин пользователя без пароля")
-    @Description("Тест API логин пользователя без пароля. Ожидаемый результат - пользователь не залогинен")
+    @Description("Логин пользователя без пароля. " +
+            "ОР - логин не зарегистрирован")
     public void loginUserWithoutPasswordIsFailed() {
         Response response = userAPI.loginUser(email, null);
 
@@ -85,7 +89,8 @@ public class UserLoginTest {
 
     @Test
     @DisplayName("Логин пользователя c некорректным email")
-    @Description("Тест API логин пользователя с некорректным email. Ожидаемый результат - пользователь не залогинен")
+    @Description("Логин пользователя с некорректным email. " +
+            "ОР - логин не зарегистрирован")
     public void loginUserWithIncorrectEmailIsFailed() {
         Response response = userAPI.loginUser(email + "qwe", password);
 
@@ -96,7 +101,8 @@ public class UserLoginTest {
 
     @Test
     @DisplayName("Логин пользователя c некорректным паролем")
-    @Description("Тест API логин пользователя с некорректным паролем. Ожидаемый результат - пользователь не залогинен")
+    @Description("Логин пользователя с некорректным паролем. " +
+            "ОР - логин не зарегистрирован")
     public void loginUserWithIncorrectPasswordIsFailed() {
         Response response = userAPI.loginUser(email, password + "qwe");
 

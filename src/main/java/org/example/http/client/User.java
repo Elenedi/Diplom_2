@@ -2,8 +2,6 @@ package org.example.http.client;
 
 import io.restassured.response.Response;
 import org.example.Constants;
-import org.example.http.client.Basis;
-
 
 public class User extends Basis {
     public Response registerUser (User user){
