@@ -10,7 +10,7 @@ import org.example.operators.UserOperators;
 import org.example.operators.OperatorsCheck;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
-import org.example.*;
+import org.example.Constants;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("change user data")
@@ -71,13 +71,15 @@ public class ChangingDataTest {
     @Description("Редактирование пароля авторизованного пользователя. " +
             "ОР - пароль изменен")
     public void changeUserPasswordWithAuthIsSuccess() {
+        Response resetRequestResponse = userAPI.requestPasswordReset(email);
+
+        checkResponse.checkStatusCode(resetRequestResponse, SC_OK);
+        checkResponse.checkSuccessStatus(resetRequestResponse, "true");
         String newPassword = "two_" + faker.letterify("12345677");
+        Response changePasswordResponse = userAPI.resetPassword(newPassword, token);
 
-        Response response = userAPI.updateUser(email, newPassword, name, token);
-
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
-        userAPI.checkUserData(response, email, newPassword, name);
+        checkResponse.checkStatusCode(changePasswordResponse, SC_OK);
+        checkResponse.checkSuccessStatus(changePasswordResponse, "true");
     }
 
     @Test

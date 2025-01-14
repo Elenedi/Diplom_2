@@ -47,13 +47,18 @@ public class UserOperators extends User {
 
     @Step("Проверка данных пользователя")
     public void checkUserData(Response response, String expectedEmail, String expectedPassword, String expectedName) {
+        checkStatusCode(response, SC_OK);
         org.example.request.User currentUser = response.body().as(UserResponse.class).getUser();
         Allure.addAttachment("Новый пользователь", currentUser.toString());
 
         MatcherAssert.assertThat("Email не совпадает", currentUser.getEmail(), equalTo(expectedEmail));
         MatcherAssert.assertThat("Имя не совпадает", currentUser.getName(), equalTo(expectedName));
 
-        new OperatorsCheck().checkStatusCode(loginUser(expectedEmail, expectedPassword), SC_OK);
+        checkStatusCode(loginUser(expectedEmail, expectedPassword), SC_OK);
+    }
+
+    private void checkStatusCode(Response response, int expectedStatusCode) {
+        MatcherAssert.assertThat("Неверный код ответа", response.getStatusCode(), equalTo(expectedStatusCode));
     }
 }
 

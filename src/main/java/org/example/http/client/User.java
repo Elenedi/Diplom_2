@@ -2,6 +2,7 @@ package org.example.http.client;
 
 import io.restassured.response.Response;
 import org.example.Constants;
+import org.example.request.PasswordResetRequest;
 
 public class User extends Basis {
     public Response registerUser (User user){
@@ -37,5 +38,20 @@ public class User extends Basis {
                 user,
                 "application/json"
         );
+    }
+
+    public Response requestPasswordReset(String email) {
+        return doPostRequest(
+                Constants.SERVER_NAME + Constants.RESET_PASSWORD,
+                new PasswordResetRequest(email),
+                "application/json");
+
+    }
+
+    public Response resetPassword(String newPassword, String token) {
+        return doPostRequest(
+                Constants.SERVER_NAME + Constants.RESET_PASSWORD + "/reset",
+                new PasswordResetRequest(newPassword, token),
+                "apllication/json");
     }
 }
