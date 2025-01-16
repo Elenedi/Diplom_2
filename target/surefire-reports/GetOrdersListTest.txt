@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: GetOrdersListTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.849 s <<< FAILURE! - in GetOrdersListTest
+getAllOrdersIsSuccess(GetOrdersListTest)  Time elapsed: 0.262 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at GetOrdersListTest.prepareTestData(GetOrdersListTest.java:42)
+
+getAuthUsersOrdersIsSuccess(GetOrdersListTest)  Time elapsed: 0.277 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at GetOrdersListTest.prepareTestData(GetOrdersListTest.java:42)
+
+getNotAuthUsersOrdersIsSuccess(GetOrdersListTest)  Time elapsed: 0.276 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at GetOrdersListTest.prepareTestData(GetOrdersListTest.java:42)
+

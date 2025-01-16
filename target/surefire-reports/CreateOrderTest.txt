@@ -1,0 +1,46 @@
+-------------------------------------------------------------------------------
+Test set: CreateOrderTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 1.828 s <<< FAILURE! - in CreateOrderTest
+createOrderWithoutAuthAndWithWrongHash(CreateOrderTest)  Time elapsed: 0.316 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
+
+createOrderWithAuthAndWithoutComponents(CreateOrderTest)  Time elapsed: 0.327 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
+
+createOrderWithAuthAndWithWrongHash(CreateOrderTest)  Time elapsed: 0.31 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
+
+createOrderWithAuthAndRandomComponents(CreateOrderTest)  Time elapsed: 0.277 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
+
+createOrderWithoutAuthAndRandomComponents(CreateOrderTest)  Time elapsed: 0.268 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
+
+createOrderWithoutAuthAndWithoutComponents(CreateOrderTest)  Time elapsed: 0.304 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
+

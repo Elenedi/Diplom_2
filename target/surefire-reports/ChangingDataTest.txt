@@ -1,0 +1,46 @@
+-------------------------------------------------------------------------------
+Test set: ChangingDataTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 13.514 s <<< FAILURE! - in ChangingDataTest
+changeUserPasswordWithoutAuthIsSuccess(ChangingDataTest)  Time elapsed: 10.551 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
+
+changeUserEmailWithAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.584 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
+
+changeUserPasswordWithAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.726 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
+
+changeUserEmailWithoutAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.433 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
+
+changeUserNameWithoutAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.298 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
+
+changeUserNameWithAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.309 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <403>.
+
+	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
+
