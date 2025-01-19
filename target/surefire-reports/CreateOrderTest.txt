@@ -1,43 +1,43 @@
 -------------------------------------------------------------------------------
 Test set: CreateOrderTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 1.868 s <<< FAILURE! - in CreateOrderTest
-createOrderWithAuthAndWithoutComponentsTest(CreateOrderTest)  Time elapsed: 0.332 s  <<< FAILURE!
+Tests run: 6, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 1.43 s <<< FAILURE! - in CreateOrderTest
+createOrderWithAuthAndWithoutComponentsTest(CreateOrderTest)  Time elapsed: 0.208 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
 
 	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
 
-createOrderWithAuthAndWithWrongHashTest(CreateOrderTest)  Time elapsed: 0.34 s  <<< FAILURE!
+createOrderWithAuthAndWithWrongHashTest(CreateOrderTest)  Time elapsed: 0.252 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
 
 	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
 
-createOrderWithoutAuthAndRandomComponentsTest(CreateOrderTest)  Time elapsed: 0.301 s  <<< FAILURE!
+createOrderWithoutAuthAndRandomComponentsTest(CreateOrderTest)  Time elapsed: 0.232 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
 
 	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
 
-createOrderWithoutAuthAndWithoutComponentsTest(CreateOrderTest)  Time elapsed: 0.287 s  <<< FAILURE!
+createOrderWithoutAuthAndWithoutComponentsTest(CreateOrderTest)  Time elapsed: 0.234 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
 
 	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
 
-createOrderWithAuthAndRandomComponentsTest(CreateOrderTest)  Time elapsed: 0.28 s  <<< FAILURE!
+createOrderWithAuthAndRandomComponentsTest(CreateOrderTest)  Time elapsed: 0.253 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
 
 	at CreateOrderTest.prepareTestData(CreateOrderTest.java:45)
 
-createOrderWithoutAuthAndWithWrongHashTest(CreateOrderTest)  Time elapsed: 0.305 s  <<< FAILURE!
+createOrderWithoutAuthAndWithWrongHashTest(CreateOrderTest)  Time elapsed: 0.241 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.

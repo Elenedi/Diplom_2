@@ -1,22 +1,22 @@
 -------------------------------------------------------------------------------
 Test set: GetOrdersListTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.912 s <<< FAILURE! - in GetOrdersListTest
-getNotAuthUsersOrdersIsSuccessTest(GetOrdersListTest)  Time elapsed: 0.296 s  <<< FAILURE!
+Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.698 s <<< FAILURE! - in GetOrdersListTest
+getNotAuthUsersOrdersIsSuccessTest(GetOrdersListTest)  Time elapsed: 0.233 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
 
 	at GetOrdersListTest.prepareTestData(GetOrdersListTest.java:42)
 
-getAuthUsersOrdersIsSuccessTest(GetOrdersListTest)  Time elapsed: 0.288 s  <<< FAILURE!
+getAuthUsersOrdersIsSuccessTest(GetOrdersListTest)  Time elapsed: 0.236 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
 
 	at GetOrdersListTest.prepareTestData(GetOrdersListTest.java:42)
 
-getAllOrdersIsSuccessTest(GetOrdersListTest)  Time elapsed: 0.316 s  <<< FAILURE!
+getAllOrdersIsSuccessTest(GetOrdersListTest)  Time elapsed: 0.214 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <400>.
