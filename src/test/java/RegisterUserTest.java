@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
-import org.example.*;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("register new user")
@@ -51,7 +50,7 @@ public class RegisterUserTest {
     @DisplayName("Регистрация нового пользователя")
     @Description("Создание нового пользователя. " +
             "ОР - пользователь создан")
-    public void registerUserIsSuccess() {
+    public void registerUserIsSuccessTest() {
         Response response = userAPI.registerUser(email, password, name);
         if (response.getStatusCode() == SC_OK) {
             tokens.add(userAPI.getToken(response));
@@ -64,7 +63,7 @@ public class RegisterUserTest {
     @DisplayName("Регистрация двух пользователей с одинаковыми данными")
     @Description("Создание двух пользователей с одинаковыми данными. " +
             "ОР - одинаковых пользователей создать нельзя.")
-    public void registerSameUserIsFailed() {
+    public void registerSameUserIsFailedTest() {
         Response responseX = userAPI.registerUser(email, password, name);
         Response responseY = userAPI.registerUser(email, password, name);
         if (responseX.getStatusCode() == SC_OK) {
@@ -83,8 +82,8 @@ public class RegisterUserTest {
     @DisplayName("Регистрация пользователя без email")
     @Description("Регистрация пользователя без email. " +
             "ОР - пользователя без email создать нельзя")
-    public void registerUserWithoutEmailIsFailed() {
-        Response response = userAPI.registerUser(null, password, name);
+    public void registerUserWithoutEmailIsFailedTest() {
+        Response response = userAPI.registerUser("", password, name);
         if (response.getStatusCode() == SC_OK) {
             tokens.add(userAPI.getToken(response));
         }
@@ -97,7 +96,7 @@ public class RegisterUserTest {
     @DisplayName("Регистрация пользователя без пароля")
     @Description("Регистрация пользователя без пароля. " +
             "ОР - пользователя без пароля создать нельзя")
-    public void registerUserWithoutPasswordIsFailed() {
+    public void registerUserWithoutPasswordIsFailedTest() {
         Response response = userAPI.registerUser(email, null, name);
         if (response.getStatusCode() == SC_OK) {
             tokens.add(userAPI.getToken(response));
@@ -111,8 +110,8 @@ public class RegisterUserTest {
     @DisplayName("Регистрация пользователя без имени")
     @Description("Регистрация пользователя без имени. " +
             "ОР - пользователя без имени создать нельзя")
-    public void registerUserWithoutNameIsFailed() {
-        Response response = userAPI.registerUser(email, null, name);
+    public void registerUserWithoutNameIsFailedTest() {
+        Response response = userAPI.registerUser(email, password, null);
         if (response.getStatusCode() == SC_OK) {
             tokens.add(userAPI.getToken(response));
         }
@@ -125,8 +124,8 @@ public class RegisterUserTest {
     @DisplayName("Регистрация пользователя без данных")
     @Description("Регистрация пользователя без данных. " +
             "ОР - пользователя без данных создать нельзя")
-    public void registerUserWithoutDataIsFailed() {
-        Response response = userAPI.registerUser(null, null, null);
+    public void registerUserWithoutDataIsFailedTest() {
+        Response response = userAPI.registerUser("", null, null);
         if (response.getStatusCode() == SC_OK) {
             tokens.add(userAPI.getToken(response));
         }

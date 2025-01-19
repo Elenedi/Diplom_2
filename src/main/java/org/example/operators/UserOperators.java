@@ -14,11 +14,12 @@ public class UserOperators extends User {
 
     @Step("Создание нового пользователя")
     public Response registerUser(String email, String password, String name) {
-        return super.registerUser(new User());
+        return super.registerUser(email, password, name);
     }
 
     @Step("Получение токена авторизации")
     public String getToken(Response response) {
+        checkStatusCode(response, SC_OK);
         String token = response.body().as(UserResponse.class).getAccessToken().split(" ")[1];
         Allure.addAttachment("Код и статус: ", response.getStatusLine());
         Allure.addAttachment("Токен: ", token);
@@ -27,7 +28,7 @@ public class UserOperators extends User {
 
     @Step("Логин пользователя")
     public Response loginUser(String email, String password) {
-        return super.loginUser(new User());
+        return super.loginUser(email, password);
     }
 
     @Step("Удаление пользователя")
@@ -53,7 +54,6 @@ public class UserOperators extends User {
 
         MatcherAssert.assertThat("Email не совпадает", currentUser.getEmail(), equalTo(expectedEmail));
         MatcherAssert.assertThat("Имя не совпадает", currentUser.getName(), equalTo(expectedName));
-
         checkStatusCode(loginUser(expectedEmail, expectedPassword), SC_OK);
     }
 

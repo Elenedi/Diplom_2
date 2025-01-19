@@ -5,7 +5,7 @@ import org.example.Constants;
 import org.example.request.PasswordResetRequest;
 
 public class User extends Basis {
-    public Response registerUser (User user){
+    public Response registerUser (String user, String password, String name){
         return doPostRequest(
                 Constants.SERVER_NAME + Constants.REGISTER_USER,
                 user,
@@ -17,7 +17,7 @@ public class User extends Basis {
                 Constants.SERVER_NAME + Constants.USER,
                 token);
     }
-    public Response loginUser (User user){
+    public Response loginUser (String user, String password){
         return doPostRequest(
                 Constants.SERVER_NAME + Constants.LOGIN_USER,
                 user,

@@ -1,18 +1,32 @@
 -------------------------------------------------------------------------------
 Test set: RegisterUserTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 2.211 s <<< FAILURE! - in RegisterUserTest
-registerSameUserIsFailed(RegisterUserTest)  Time elapsed: 0.731 s  <<< FAILURE!
-java.lang.AssertionError: 
-Неверный текст в поле message
-Expected: "Email, password and name are required fields"
-     but: was "User already exists"
-	at RegisterUserTest.registerSameUserIsFailed(RegisterUserTest.java:79)
-
-registerUserIsSuccess(RegisterUserTest)  Time elapsed: 0.281 s  <<< FAILURE!
+Tests run: 6, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 2.403 s <<< FAILURE! - in RegisterUserTest
+registerSameUserIsFailedTest(RegisterUserTest)  Time elapsed: 0.588 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <403>.
+Expected status code <403> but was <400>.
 
-	at RegisterUserTest.registerUserIsSuccess(RegisterUserTest.java:59)
+	at RegisterUserTest.registerSameUserIsFailedTest(RegisterUserTest.java:76)
+
+registerUserIsSuccessTest(RegisterUserTest)  Time elapsed: 0.283 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <400>.
+
+	at RegisterUserTest.registerUserIsSuccessTest(RegisterUserTest.java:58)
+
+registerUserWithoutNameIsFailedTest(RegisterUserTest)  Time elapsed: 0.268 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <403> but was <400>.
+
+	at RegisterUserTest.registerUserWithoutNameIsFailedTest(RegisterUserTest.java:118)
+
+registerUserWithoutPasswordIsFailedTest(RegisterUserTest)  Time elapsed: 0.252 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <403> but was <400>.
+
+	at RegisterUserTest.registerUserWithoutPasswordIsFailedTest(RegisterUserTest.java:104)
 

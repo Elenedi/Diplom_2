@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="ChangingDataTest" time="13.514" tests="6" errors="0" skipped="0" failures="6">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="ChangingDataTest" time="12.836" tests="6" errors="0" skipped="0" failures="6">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -17,7 +17,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="RU"/>
     <property name="sun.boot.library.path" value="C:\Users\111\.jdks\corretto-11.0.24\bin"/>
-    <property name="sun.java.command" value="C:\Users\111\AppData\Local\Temp\surefire4670636079421954170\surefirebooter2461145957063299439.jar C:\Users\111\AppData\Local\Temp\surefire4670636079421954170 2025-01-16T19-11-42_661-jvmRun1 surefire15768196334350800951tmp surefire_012011678248928218573tmp"/>
+    <property name="sun.java.command" value="C:\Users\111\AppData\Local\Temp\surefire7454713499281525286\surefirebooter11241187929514217020.jar C:\Users\111\AppData\Local\Temp\surefire7454713499281525286 2025-01-19T23-17-45_711-jvmRun1 surefire4207499261877879690tmp surefire_01814825465607445967tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\target\test-classes;C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\target\classes;C:\Users\111\.m2\repository\io\qameta\allure\allure-junit4\2.15.0\allure-junit4-2.15.0.jar;C:\Users\111\.m2\repository\io\qameta\allure\allure-java-commons\2.15.0\allure-java-commons-2.15.0.jar;C:\Users\111\.m2\repository\io\qameta\allure\allure-model\2.15.0\allure-model-2.15.0.jar;C:\Users\111\.m2\repository\io\qameta\allure\allure-rest-assured\2.15.0\allure-rest-assured-2.15.0.jar;C:\Users\111\.m2\repository\io\qameta\allure\allure-attachments\2.15.0\allure-attachments-2.15.0.jar;C:\Users\111\.m2\repository\org\freemarker\freemarker\2.3.31\freemarker-2.3.31.jar;C:\Users\111\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\111\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\111\.m2\repository\org\mockito\mockito-core\3.12.4\mockito-core-3.12.4.jar;C:\Users\111\.m2\repository\net\bytebuddy\byte-buddy\1.11.13\byte-buddy-1.11.13.jar;C:\Users\111\.m2\repository\net\bytebuddy\byte-buddy-agent\1.11.13\byte-buddy-agent-1.11.13.jar;C:\Users\111\.m2\repository\org\objenesis\objenesis\3.2\objenesis-3.2.jar;C:\Users\111\.m2\repository\io\rest-assured\rest-assured\5.5.0\rest-assured-5.5.0.jar;C:\Users\111\.m2\repository\org\apache\groovy\groovy\4.0.22\groovy-4.0.22.jar;C:\Users\111\.m2\repository\org\apache\groovy\groovy-xml\4.0.22\groovy-xml-4.0.22.jar;C:\Users\111\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\111\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\111\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\111\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\111\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\111\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\111\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\111\.m2\repository\io\rest-assured\json-path\5.5.0\json-path-5.5.0.jar;C:\Users\111\.m2\repository\org\apache\groovy\groovy-json\4.0.22\groovy-json-4.0.22.jar;C:\Users\111\.m2\repository\io\rest-assured\rest-assured-common\5.5.0\rest-assured-common-5.5.0.jar;C:\Users\111\.m2\repository\io\rest-assured\xml-path\5.5.0\xml-path-5.5.0.jar;C:\Users\111\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\111\.m2\repository\org\slf4j\slf4j-simple\1.7.36\slf4j-simple-1.7.36.jar;C:\Users\111\.m2\repository\com\google\code\gson\gson\2.8.9\gson-2.8.9.jar;C:\Users\111\.m2\repository\com\github\javafaker\javafaker\1.0.2\javafaker-1.0.2.jar;C:\Users\111\.m2\repository\org\apache\commons\commons-lang3\3.5\commons-lang3-3.5.jar;C:\Users\111\.m2\repository\org\yaml\snakeyaml\1.23\snakeyaml-1.23-android.jar;C:\Users\111\.m2\repository\com\github\mifmif\generex\1.0.2\generex-1.0.2.jar;C:\Users\111\.m2\repository\dk\brics\automaton\automaton\1.11-8\automaton-1.11-8.jar;C:\Users\111\.m2\repository\org\projectlombok\lombok\1.18.30\lombok-1.18.30.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -34,7 +34,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\111\AppData\Local\Temp\surefire4670636079421954170\surefirebooter2461145957063299439.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\111\AppData\Local\Temp\surefire7454713499281525286\surefirebooter11241187929514217020.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="11.0.24+8-LTS"/>
@@ -63,50 +63,50 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="changeUserPasswordWithoutAuthIsSuccess" classname="ChangingDataTest" time="10.551">
-    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;403&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
+  <testcase name="changeUserPasswordWithoutAuthIsSuccess" classname="ChangingDataTest" time="10.287">
+    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;400&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <403>.
+Expected status code <200> but was <400>.
 
 	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
 ]]></failure>
   </testcase>
-  <testcase name="changeUserEmailWithAuthIsSuccess" classname="ChangingDataTest" time="0.584">
-    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;403&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
+  <testcase name="changeUserEmailWithAuthIsSuccess" classname="ChangingDataTest" time="0.516">
+    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;400&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <403>.
+Expected status code <200> but was <400>.
 
 	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
 ]]></failure>
   </testcase>
-  <testcase name="changeUserPasswordWithAuthIsSuccess" classname="ChangingDataTest" time="0.726">
-    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;403&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
+  <testcase name="changeUserEmailWithoutAuthIsSuccess" classname="ChangingDataTest" time="0.467">
+    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;400&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <403>.
+Expected status code <200> but was <400>.
 
 	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
 ]]></failure>
   </testcase>
-  <testcase name="changeUserEmailWithoutAuthIsSuccess" classname="ChangingDataTest" time="0.433">
-    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;403&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
+  <testcase name="changeUserNameWithoutAuthIsSuccess" classname="ChangingDataTest" time="0.35">
+    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;400&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <403>.
+Expected status code <200> but was <400>.
 
 	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
 ]]></failure>
   </testcase>
-  <testcase name="changeUserNameWithoutAuthIsSuccess" classname="ChangingDataTest" time="0.298">
-    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;403&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
+  <testcase name="changeUserPassWithAuthIsSuccessTest" classname="ChangingDataTest" time="0.284">
+    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;400&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <403>.
+Expected status code <200> but was <400>.
 
 	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
 ]]></failure>
   </testcase>
-  <testcase name="changeUserNameWithAuthIsSuccess" classname="ChangingDataTest" time="0.309">
-    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;403&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
+  <testcase name="changeUserNameWithAuthIsSuccess" classname="ChangingDataTest" time="0.304">
+    <failure message="1 expectation failed.&#10;Expected status code &lt;200&gt; but was &lt;400&gt;.&#10;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <403>.
+Expected status code <200> but was <400>.
 
 	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
 ]]></failure>

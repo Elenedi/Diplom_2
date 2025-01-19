@@ -4,10 +4,10 @@
 .target/maven-status/
 .target/surefire-reports/
 .target/test-classes/
-!.mvn/wrapper/maven-wrapper.jar
-
 .idea
 .allure
+!.mvn/wrapper/maven-wrapper.jar
+
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

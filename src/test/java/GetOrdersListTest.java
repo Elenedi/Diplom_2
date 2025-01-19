@@ -72,7 +72,7 @@ public class GetOrdersListTest {
     @DisplayName("Получение всех заказов")
     @Description("Получение списка заказов. " +
             "ОР - список заказов получен.")
-    public void getAllOrdersIsSuccess() {
+    public void getAllOrdersIsSuccessTest() {
         Response response = orderAPI.getAllOrderList();
 
         checkResponse.checkStatusCode(response, SC_OK);
@@ -83,7 +83,7 @@ public class GetOrdersListTest {
     @DisplayName("Получение списка заказов авторизованного пользователя")
     @Description("Получение списка заказов авторизованного пользователя. " +
             "ОР - список заказов получен.")
-    public void getAuthUsersOrdersIsSuccess() {
+    public void getAuthUsersOrdersIsSuccessTest() {
         Response response = orderAPI.getOrderList(token);
         checkResponse.checkStatusCode(response, SC_OK);
         checkResponse.checkSuccessStatus(response, "true");
@@ -93,7 +93,7 @@ public class GetOrdersListTest {
     @DisplayName("Получение списка заказов неавторизованного пользователя")
     @Description("Получение списка заказов неавторизованного пользователя. " +
             "ОР - список заказов не получен, сообщение об ошибке.")
-    public void getNotAuthUsersOrdersIsSuccess() {
+    public void getNotAuthUsersOrdersIsSuccessTest() {
         Response response = orderAPI.getOrderList("");
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
         checkResponse.checkSuccessStatus(response, "false");

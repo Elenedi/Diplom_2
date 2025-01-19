@@ -65,7 +65,7 @@ public class CreateOrderTest {
     @DisplayName("Создание заказа с авторизацией и случайными ингредиентами")
     @Description("Cоздание заказа с авторизацией + случайные ингредиенты из списка. " +
             "ОP - заказ успешно создан.")
-    public void createOrderWithAuthAndRandomComponents() {
+    public void createOrderWithAuthAndRandomComponentsTest() {
         int numberOfComponents = faker.number().numberBetween(2, 6);
         List<String> selectedComponents = new ArrayList<>();
         for (int i = 0; i < numberOfComponents; i++) {
@@ -82,7 +82,7 @@ public class CreateOrderTest {
     @DisplayName("Создание заказа без авторизации и случайными ингредиентами")
     @Description("Создание заказа с авторизацией + случайные ингредиенты из списка. " +
             "ОР - заказ успешно создан.")
-    public void createOrderWithoutAuthAndRandomComponents() {
+    public void createOrderWithoutAuthAndRandomComponentsTest() {
         int numberOfComponent = faker.number().numberBetween(2, 6);
         List<String> selectedComponents = new ArrayList<>();
         for (int i = 0; i < numberOfComponent; i++) {
@@ -100,7 +100,7 @@ public class CreateOrderTest {
     @DisplayName("Создание заказа с авторизацией и без ингредиентов")
     @Description("Создание заказа с авторизацией без ингредиентов. " +
             "ОР - заказ не создан, сообщение об ошибке.")
-    public void createOrderWithAuthAndWithoutComponents() {
+    public void createOrderWithAuthAndWithoutComponentsTest() {
         List<String> emptyComponents = new ArrayList<>();
         Response response = orderAPI.createOrder(emptyComponents, token);
 
@@ -113,7 +113,7 @@ public class CreateOrderTest {
     @DisplayName("Создание заказа без авторизации и без ингредиентов")
     @Description("Создание заказа без авторизации и ингредиентов. " +
             "ОР - заказ не создан, сообщение об ошибке.")
-    public void createOrderWithoutAuthAndWithoutComponents() {
+    public void createOrderWithoutAuthAndWithoutComponentsTest() {
         List<String> emptyComponents = new ArrayList<>();
         Response response = orderAPI.createOrder(emptyComponents);
 
@@ -126,7 +126,7 @@ public class CreateOrderTest {
     @DisplayName("Создание заказа с авторизацией и с некорректным hash ингредиентов")
     @Description("Создание заказа с авторизацией и неверным hash ингредиентов. " +
             "ОР - заказ не создан, сообщение об ошибке.")
-    public void createOrderWithoutAuthAndWithWrongHash() {
+    public void createOrderWithoutAuthAndWithWrongHashTest() {
         List<String> testComponents = Arrays.asList(
                 faker.internet().uuid(),
                 faker.internet().uuid());
@@ -139,7 +139,7 @@ public class CreateOrderTest {
     @DisplayName("Создание заказа без авторизации и с некорректным hash ингредиентов")
     @Description("Создание заказа без авторизации и некорректным hash ингредиентов. " +
             "ОР - заказ не создан, сообщение об ошибке.")
-    public void createOrderWithAuthAndWithWrongHash() {
+    public void createOrderWithAuthAndWithWrongHashTest() {
         List<String> testComponents = Arrays.asList(
                 faker.internet().uuid(),
                 faker.internet().uuid());

@@ -1,11 +1,32 @@
 -------------------------------------------------------------------------------
 Test set: UserLoginTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.636 s <<< FAILURE! - in UserLoginTest
-loginUserIsSuccess(UserLoginTest)  Time elapsed: 0.522 s  <<< FAILURE!
+Tests run: 5, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 2.503 s <<< FAILURE! - in UserLoginTest
+loginUserIsSuccessTest(UserLoginTest)  Time elapsed: 0.493 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <401>.
+Expected status code <200> but was <400>.
 
-	at UserLoginTest.loginUserIsSuccess(UserLoginTest.java:62)
+	at UserLoginTest.loginUserIsSuccessTest(UserLoginTest.java:61)
+
+loginUserWithoutPasswordIsFailedTest(UserLoginTest)  Time elapsed: 0.5 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <400>.
+
+	at UserLoginTest.loginUserWithoutPasswordIsFailedTest(UserLoginTest.java:84)
+
+loginUserWithIncorrectPassIsFailedTest(UserLoginTest)  Time elapsed: 0.482 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <400>.
+
+	at UserLoginTest.loginUserWithIncorrectPassIsFailedTest(UserLoginTest.java:108)
+
+loginUserWithIncorrectEmailIsFailedTest(UserLoginTest)  Time elapsed: 0.512 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <400>.
+
+	at UserLoginTest.loginUserWithIncorrectEmailIsFailedTest(UserLoginTest.java:96)
 

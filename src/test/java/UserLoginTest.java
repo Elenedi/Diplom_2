@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
-import org.example.*;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("log in user")
@@ -56,7 +55,7 @@ public class UserLoginTest {
     @DisplayName("Логин пользователя")
     @Description("Логин пользователя. " +
             "ОР - логин зарегистрирован")
-    public void loginUserIsSuccess() {
+    public void loginUserIsSuccessTest() {
         Response response = userAPI.loginUser(email, password);
 
         checkResponse.checkStatusCode(response, SC_OK);
@@ -67,8 +66,8 @@ public class UserLoginTest {
     @DisplayName("Логин пользователя без email")
     @Description("Тест API логин пользователя без email. " +
             "ОР - логин не зарегистрирован")
-    public void loginUserWithoutEmailIsFailed() {
-        Response response = userAPI.loginUser(null, password);
+    public void loginUserWithoutEmailIsFailedTest() {
+        Response response = userAPI.loginUser("",password);
 
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
         checkResponse.checkSuccessStatus(response, "false");
@@ -79,7 +78,7 @@ public class UserLoginTest {
     @DisplayName("Логин пользователя без пароля")
     @Description("Логин пользователя без пароля. " +
             "ОР - логин не зарегистрирован")
-    public void loginUserWithoutPasswordIsFailed() {
+    public void loginUserWithoutPasswordIsFailedTest() {
         Response response = userAPI.loginUser(email, null);
 
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
@@ -91,7 +90,7 @@ public class UserLoginTest {
     @DisplayName("Логин пользователя c некорректным email")
     @Description("Логин пользователя с некорректным email. " +
             "ОР - логин не зарегистрирован")
-    public void loginUserWithIncorrectEmailIsFailed() {
+    public void loginUserWithIncorrectEmailIsFailedTest() {
         Response response = userAPI.loginUser(email + "qwe", password);
 
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
@@ -103,7 +102,7 @@ public class UserLoginTest {
     @DisplayName("Логин пользователя c некорректным паролем")
     @Description("Логин пользователя с некорректным паролем. " +
             "ОР - логин не зарегистрирован")
-    public void loginUserWithIncorrectPasswordIsFailed() {
+    public void loginUserWithIncorrectPassIsFailedTest() {
         Response response = userAPI.loginUser(email, password + "qwe");
 
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
