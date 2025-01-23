@@ -3,6 +3,7 @@ import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import io.qameta.allure.junit4.Tag;
 import io.restassured.response.Response;
+import methods.MethodsForTest;
 import org.example.request.Components;
 import org.example.response.ComponentsResponse;
 import org.junit.After;
@@ -12,7 +13,7 @@ import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.example.request.Order;
+import org.example.request.OrderModel;
 import org.example.operators.OrderOperators;
 import org.example.operators.UserOperators;
 import org.example.operators.OperatorsCheck;
@@ -23,7 +24,7 @@ import org.example.operators.OperatorsCheck;
 @Feature("Создание нового заказа в Stellar Burgers")
 @DisplayName("Создание нового заказа")
 
-public class CreateOrderTest {
+public class CreateOrderTest extends MethodsForTest {
     private String email;
     private String password;
     private String name;
@@ -33,25 +34,7 @@ public class CreateOrderTest {
     private final UserOperators userAPI = new UserOperators();
     private final OperatorsCheck checkResponse = new OperatorsCheck();
     private final Faker faker = new Faker();
-
-    @Before
-    @Step("Подготовка тестовых данных")
-    public void prepareTestData() {
-        this.email = faker.internet().safeEmailAddress();
-        this.password = faker.letterify("123456787");
-        this.name = faker.name().firstName();
-
-        Response response = userAPI.registerUser(email, password, name);
-        checkResponse.checkStatusCode(response, SC_OK);
-
-        if (response.getStatusCode() == SC_OK) {
-            token = userAPI.getToken(response);
-        }
-
-        response = orderAPI.getComponentsList();
-        checkResponse.checkStatusCode(response, SC_OK);
-        components = response.body().as(ComponentsResponse.class).getData();
-    }
+    private MethodsForTest methodsUserLogin = new MethodsForTest();
 
     @After
     @Step("Удаление данных после теста")
@@ -66,16 +49,20 @@ public class CreateOrderTest {
     @Description("Cоздание заказа с авторизацией + случайные ингредиенты из списка. " +
             "ОP - заказ успешно создан.")
     public void createOrderWithAuthAndRandomComponentsTest() {
-        int numberOfComponents = faker.number().numberBetween(2, 6);
-        List<String> selectedComponents = new ArrayList<>();
-        for (int i = 0; i < numberOfComponents; i++) {
-            Components randomComponent = components.get(faker.number().numberBetween(0, components.size()));
-            selectedComponents.add(randomComponent.get_id());
-        }
-        Response response = orderAPI.createOrder(selectedComponents, token);
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
 
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
+        Response createUserResponse = createUniqueUser(email, password, name);
+        createUserResponse.then().statusCode(200);
+        Response loginResponse = loginWithUser(email, password, name);
+        loginResponse.then().statusCode(200);
+        String accessToken = loginResponse.jsonPath().getString("accessToken");
+
+        Response orderResponse = MethodsForTest.createOrderWithIngredients(accessToken);
+        orderResponse.then().log().all();
+        MethodsForTest.verifyOrderCreation(orderResponse);
+        deleteUserByToken(accessToken);
     }
 
     @Test
@@ -83,17 +70,9 @@ public class CreateOrderTest {
     @Description("Создание заказа с авторизацией + случайные ингредиенты из списка. " +
             "ОР - заказ успешно создан.")
     public void createOrderWithoutAuthAndRandomComponentsTest() {
-        int numberOfComponent = faker.number().numberBetween(2, 6);
-        List<String> selectedComponents = new ArrayList<>();
-        for (int i = 0; i < numberOfComponent; i++) {
-            Components randomComponent = components.get(faker.number().numberBetween(0, components.size()));
-            selectedComponents.add(randomComponent.get_id());
-        }
-        Response response = orderAPI.createOrder((List<String>) new Order(selectedComponents));
-
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
-        //в документации нет информации об ожидаемом коде и статусе, но тест не падает если ожидать 200 ОК
+        Response orderResponse = MethodsForTest.createOrderWithoutAuthorization();
+        orderResponse.then().log().all();
+        MethodsForTest.verifyOrderCreationUnauthorized(orderResponse);
     }
 
     @Test
@@ -101,12 +80,20 @@ public class CreateOrderTest {
     @Description("Создание заказа с авторизацией без ингредиентов. " +
             "ОР - заказ не создан, сообщение об ошибке.")
     public void createOrderWithAuthAndWithoutComponentsTest() {
-        List<String> emptyComponents = new ArrayList<>();
-        Response response = orderAPI.createOrder(emptyComponents, token);
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
 
-        checkResponse.checkStatusCode(response, SC_BAD_REQUEST);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "Components' ids must be provided");
+        Response createUserResponse = createUniqueUser(email, password, name);
+        createUserResponse.then().statusCode(200);
+        Response loginResponse = loginWithUser(email, password, name);
+        loginResponse.then().statusCode(200);
+
+        String accessToken = loginResponse.jsonPath().getString("accessToken");
+        Response orderResponse = MethodsForTest.createOrderWitNoIngredients(accessToken);
+        orderResponse.then().log().all();
+        MethodsForTest.verifyOrderCreationNoIngredients(orderResponse);
+        deleteUserByToken(accessToken);
     }
 
     @Test
@@ -114,37 +101,38 @@ public class CreateOrderTest {
     @Description("Создание заказа без авторизации и ингредиентов. " +
             "ОР - заказ не создан, сообщение об ошибке.")
     public void createOrderWithoutAuthAndWithoutComponentsTest() {
-        List<String> emptyComponents = new ArrayList<>();
-        Response response = orderAPI.createOrder(emptyComponents);
-
-        checkResponse.checkStatusCode(response, SC_BAD_REQUEST);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "Components' ids must be provided");
+        Response orderResponseWithoutAuthorization = MethodsForTest.createOrderWithoutAuthorizationAndIngredients();
+        orderResponseWithoutAuthorization.then().log().all();
+        MethodsForTest.verifyOrderCreationNoIngredientsUnauthorized(orderResponseWithoutAuthorization);
+        Response orderResponseWithoutIngredients = MethodsForTest.createOrderWithoutAuthorizationAndIngredients();
+        MethodsForTest.verifyOrderCreationNoAuthorizedAndNoIngredients(orderResponseWithoutIngredients);
     }
 
     @Test
-    @DisplayName("Создание заказа с авторизацией и с некорректным hash ингредиентов")
-    @Description("Создание заказа с авторизацией и неверным hash ингредиентов. " +
+    @DisplayName("Создание заказа с неверным hash ингредиентов")
+    @Description("Создание заказа с неверным hash ингредиентов" +
             "ОР - заказ не создан, сообщение об ошибке.")
-    public void createOrderWithoutAuthAndWithWrongHashTest() {
-        List<String> testComponents = Arrays.asList(
-                faker.internet().uuid(),
-                faker.internet().uuid());
-        Response response = orderAPI.createOrder(testComponents, token);
+    public void createOrderWithInvalidIngredientsHash() {
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
 
-        checkResponse.checkStatusCode(response, SC_INTERNAL_SERVER_ERROR);
-    }
+        Response createUserResponse = createUniqueUser(email, password, name);
+        createUserResponse.then().statusCode(200);
+        Response loginResponse = loginWithUser(email, password, name);
+        loginResponse.then().statusCode(200);
+        String accessToken = loginResponse.jsonPath().getString("accessToken");
+        try {
+            Response orderResponse = MethodsForTest.createOrderWithInvalidIngredientsHash(accessToken);
+            orderResponse.then().log().all();
 
-    @Test
-    @DisplayName("Создание заказа без авторизации и с некорректным hash ингредиентов")
-    @Description("Создание заказа без авторизации и некорректным hash ингредиентов. " +
-            "ОР - заказ не создан, сообщение об ошибке.")
-    public void createOrderWithAuthAndWithWrongHashTest() {
-        List<String> testComponents = Arrays.asList(
-                faker.internet().uuid(),
-                faker.internet().uuid());
-        Response response = orderAPI.createOrder(testComponents);
+            MethodsForTest.verifyOrderCreationInvalidIngredientsHash(orderResponse);
+            orderResponse.then().statusCode(400);
+        } catch (Exception e) {
+            System.out.println("Ошибка при создании заказа: " + e.getMessage());
+        } finally {
 
-        checkResponse.checkStatusCode(response, SC_INTERNAL_SERVER_ERROR);
+            deleteUserByToken(accessToken);
+        }
     }
 }

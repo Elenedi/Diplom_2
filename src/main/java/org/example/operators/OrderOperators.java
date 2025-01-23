@@ -3,20 +3,19 @@ package org.example.operators;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import java.util.List;
-import org.example.http.client.Order;
-import org.example.request.Components;
+import org.example.http.client.OrderApi;
 
-public class OrderOperators extends Order {
+public class OrderOperators extends OrderApi {
 
 
     @Step("Создание заказа с авторизацией")
     public Response createOrder(List<String> components, String token) {
-        return super.createOrder(new Order(), token);
+        return super.createOrder(new OrderApi(), token);
     }
 
     @Step("Создание заказа без авторизации")
     public Response createOrder(List<String> components) {
-        return super.createOrder(new Order());
+        return super.createOrder(new OrderApi());
     }
 
     @Step("Получить список ингредиентов")

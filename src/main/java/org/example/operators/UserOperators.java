@@ -3,14 +3,14 @@ package org.example.operators;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import org.example.http.client.User;
+import org.example.http.client.UserApi;
+import org.example.request.UserModel;
 import org.example.response.UserResponse;
 import org.hamcrest.MatcherAssert;
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.equalTo;
-import org.example.*;
 
-public class UserOperators extends User {
+public class UserOperators extends UserApi {
 
     @Step("Создание нового пользователя")
     public Response registerUser(String email, String password, String name) {
@@ -38,18 +38,18 @@ public class UserOperators extends User {
 
     @Step("Обновление данных пользователя")
     public Response updateUser(String email, String password, String name, String token) {
-        return super.updateUser(new User(), token);
+        return super.updateUser(new UserApi(), token);
     }
 
     @Step("Обновление данных пользователя без токена")
     public Response updateUser(String email, String password, String name) {
-        return super.updateUser(new User());
+        return super.updateUser(new UserApi());
     }
 
     @Step("Проверка данных пользователя")
     public void checkUserData(Response response, String expectedEmail, String expectedPassword, String expectedName) {
         checkStatusCode(response, SC_OK);
-        org.example.request.User currentUser = response.body().as(UserResponse.class).getUser();
+        UserModel currentUser = response.body().as(UserResponse.class).getUser();
         Allure.addAttachment("Новый пользователь", currentUser.toString());
 
         MatcherAssert.assertThat("Email не совпадает", currentUser.getEmail(), equalTo(expectedEmail));

@@ -3,7 +3,7 @@ package org.example.response;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
-import org.example.*;
+
 import org.example.request.Components;
 
 public class ComponentsResponse {
@@ -22,3 +22,4 @@ public class ComponentsResponse {
         this.data = data;
     }
 }
+

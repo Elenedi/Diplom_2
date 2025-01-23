@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
+import methods.MethodsForTest;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("log in user")
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 @Feature("Логин пользователя в Stellar Burgers")
 @DisplayName("Логин пользователя")
 
-public class UserLoginTest {
+public class UserLoginTest extends MethodsForTest{
     private String email;
     private String password;
     private String name;
@@ -27,6 +28,7 @@ public class UserLoginTest {
     private final UserOperators userAPI = new UserOperators();
     private final OperatorsCheck checkResponse = new OperatorsCheck();
     private final Faker faker = new Faker();
+    private MethodsForTest methodsUserLogin = new MethodsForTest();
 
     @Before
     @Step("Подготовка тестовых данных")
@@ -55,11 +57,15 @@ public class UserLoginTest {
     @DisplayName("Логин пользователя")
     @Description("Логин пользователя. " +
             "ОР - логин зарегистрирован")
-    public void loginUserIsSuccessTest() {
-        Response response = userAPI.loginUser(email, password);
-
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
+    public void loginWithExistingUserTest() {
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
+        Response response = createUniqueUser(email, password, name);
+        verifyUserCreation(response, email, name);
+        Response loginResponse = methodsUserLogin.loginWithUser(email, password, name);
+        String accessToken = verifyLoginSuccess(loginResponse);
+        deleteUserByToken(accessToken);
     }
 
     @Test
@@ -67,11 +73,16 @@ public class UserLoginTest {
     @Description("Тест API логин пользователя без email. " +
             "ОР - логин не зарегистрирован")
     public void loginUserWithoutEmailIsFailedTest() {
-        Response response = userAPI.loginUser("",password);
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
 
-        checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "email or password are incorrect");
+        Response createUserResponse = createUniqueUser(email, password, name);
+        verifyLoginWithInvalidCredentials(createUserResponse);
+        String accessToken = createUserResponse.jsonPath().getString("accessToken");
+        String noEmail = "no email" + email;
+        Response loginResponse = methodsUserLogin.loginWithUser(noEmail, password, name);
+        MethodsForTest.verifyLoginWithInvalidCredentials(loginResponse);
+        deleteUserByToken(accessToken);
     }
 
     @Test
@@ -79,11 +90,16 @@ public class UserLoginTest {
     @Description("Логин пользователя без пароля. " +
             "ОР - логин не зарегистрирован")
     public void loginUserWithoutPasswordIsFailedTest() {
-        Response response = userAPI.loginUser(email, null);
+        String email = generateUniqueEmail();
+            String name = generateUniqueName();
 
-        checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "email or password are incorrect");
+            Response createUserResponse = createUniqueUser(email, password, name);
+            verifyUserCreation(createUserResponse, email, name);
+            String accessToken = createUserResponse.jsonPath().getString("accessToken");
+            String noPassword = "no password" + password;
+            Response loginResponse = methodsUserLogin.loginWithUser(email, noPassword, name);
+            MethodsForTest.verifyLoginWithInvalidCredentials(loginResponse);
+            deleteUserByToken(accessToken);
     }
 
     @Test
@@ -91,11 +107,15 @@ public class UserLoginTest {
     @Description("Логин пользователя с некорректным email. " +
             "ОР - логин не зарегистрирован")
     public void loginUserWithIncorrectEmailIsFailedTest() {
-        Response response = userAPI.loginUser(email + "qwe", password);
-
-        checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "email or password are incorrect");
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
+        Response createUserResponse = createUniqueUser(email, password, name);
+        verifyUserCreation(createUserResponse, email, name);
+        String accessToken = createUserResponse.jsonPath().getString("accessToken");
+        String incorrectEmail = "invalid" + email;
+        Response loginResponse = methodsUserLogin.loginWithUser(incorrectEmail, password, name);
+        deleteUserByToken(accessToken);
     }
 
     @Test
@@ -103,10 +123,14 @@ public class UserLoginTest {
     @Description("Логин пользователя с некорректным паролем. " +
             "ОР - логин не зарегистрирован")
     public void loginUserWithIncorrectPassIsFailedTest() {
-        Response response = userAPI.loginUser(email, password + "qwe");
-
-        checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "email or password are incorrect");
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
+        Response createUserResponse = createUniqueUser(email, password, name);
+        verifyUserCreation(createUserResponse, email, name);
+        String accessToken = createUserResponse.jsonPath().getString("accessToken");
+        String incorrectPassword = "invalid" + password;
+        Response loginResponse = methodsUserLogin.loginWithUser(email, incorrectPassword, name);
+        deleteUserByToken(accessToken);
     }
 }

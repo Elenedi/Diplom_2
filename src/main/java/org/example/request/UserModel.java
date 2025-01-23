@@ -1,10 +1,9 @@
 package org.example.request;
 
-import io.qameta.allure.internal.shadowed.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
-public class User {
+public class UserModel {
     @Getter
     @Setter
     private String email;
@@ -17,15 +16,15 @@ public class User {
     @Setter
     private String name;
 
-    public User() {}
+    public UserModel() {}
 
-    public User(String email, String password, String name) {
+    public UserModel(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
     }
 
-    public User(String email, String password) {
+    public UserModel(String email, String password) {
         this.email = email;
         this.password = password;
     }

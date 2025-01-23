@@ -2,7 +2,7 @@ package org.example.response;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.request.User;
+import org.example.request.UserModel;
 
 public class UserResponse {
     @Getter
@@ -11,7 +11,7 @@ public class UserResponse {
 
     @Getter
     @Setter
-    private User user;
+    private UserModel user;
 
     @Getter
     @Setter
@@ -27,7 +27,7 @@ public class UserResponse {
 
     public UserResponse() { }
 
-    public UserResponse(String success, User user, String accessToken, String refreshToken) {
+    public UserResponse(String success, UserModel user, String accessToken, String refreshToken) {
         this.success = success;
         this.user = user;
         this.accessToken = accessToken;
@@ -39,3 +39,4 @@ public class UserResponse {
         this.message = message;
     }
 }
+

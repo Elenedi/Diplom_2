@@ -1,13 +1,13 @@
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\Constants.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\http\client\Basis.java
-C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\http\client\Order.java
-C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\http\client\User.java
+C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\http\client\OrderApi.java
+C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\http\client\UserApi.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\operators\OperatorsCheck.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\operators\OrderOperators.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\operators\UserOperators.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\request\Components.java
-C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\request\Order.java
+C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\request\OrderModel.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\request\PasswordResetRequest.java
-C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\request\User.java
+C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\request\UserModel.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\response\ComponentsResponse.java
 C:\Work\Praktikum\Automisation\Diploma\Diplom\Diplom_2\src\main\java\org\example\response\UserResponse.java

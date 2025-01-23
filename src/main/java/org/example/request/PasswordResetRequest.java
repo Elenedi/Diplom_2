@@ -21,3 +21,4 @@ public class PasswordResetRequest {
         this.token = token;
     }
 }
+

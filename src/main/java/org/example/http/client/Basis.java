@@ -20,12 +20,13 @@ public class Basis {
                 .addFilter(new AllureRestAssured())
                 .setRelaxedHTTPSValidation()
                 .build();
-        }
+    }
 
-        public Response doPostRequest(String url, Object requestBody,
-                                      String contentType) {
+    public Response doPostRequest(String url, Object requestBody,
+                                  String contentType) {
         return given(this.basisRequest(contentType))
                 .body(requestBody)
+                .log().all()
                 .when()
                 .post(url);
     }
@@ -35,18 +36,21 @@ public class Basis {
         return given(this.basisRequest(contentType))
                 .auth().oauth2(token)
                 .body(requestBody)
+                .log().all()
                 .when()
                 .post(url);
     }
 
     public Response doGetRequest(String url) {
         return given(this.basisRequest())
+                .log().all()
                 .get(url);
     }
 
     public Response doGetRequest(String url, String token) {
         return given(this.basisRequest())
                 .auth().oauth2(token)
+                .log().all()
                 .when()
                 .get(url);
     }
@@ -54,6 +58,7 @@ public class Basis {
     public Response doDeleteRequest(String url, String token) {
         return given(this.basisRequest())
                 .auth().oauth2(token)
+                .log().all()
                 .delete(url);
     }
 
@@ -62,6 +67,7 @@ public class Basis {
         return given(this.basisRequest(contentType))
                 .auth().oauth2(token)
                 .body(requestBody)
+                .log().all()
                 .when()
                 .patch(url);
     }
@@ -70,6 +76,7 @@ public class Basis {
                                    String contentType) {
         return given(this.basisRequest(contentType))
                 .body(requestBody)
+                .log().all()
                 .when()
                 .patch(url);
     }

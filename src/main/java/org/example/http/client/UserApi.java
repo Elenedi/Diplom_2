@@ -3,12 +3,14 @@ package org.example.http.client;
 import io.restassured.response.Response;
 import org.example.Constants;
 import org.example.request.PasswordResetRequest;
+import org.example.request.UserModel;
 
-public class User extends Basis {
+public class UserApi extends Basis {
     public Response registerUser (String user, String password, String name){
+        UserModel userData = new UserModel(user, password, name);
         return doPostRequest(
                 Constants.SERVER_NAME + Constants.REGISTER_USER,
-                user,
+                userData,
                 "application/json");
     }
 
@@ -24,7 +26,7 @@ public class User extends Basis {
                 "application/json"
         );
     }
-    public Response updateUser (User user, String token){
+    public Response updateUser (UserApi user, String token){
         return doPatchRequest(
                 Constants.SERVER_NAME + Constants.USER,
                 user,
@@ -32,7 +34,7 @@ public class User extends Basis {
                 token
         );
     }
-    public Response updateUser (User user){
+    public Response updateUser (UserApi user){
         return doPatchRequest(
                 Constants.SERVER_NAME + Constants.USER,
                 user,

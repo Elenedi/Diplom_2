@@ -11,13 +11,14 @@ import org.example.operators.OperatorsCheck;
 import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
 import org.example.http.client.*;
+import methods.MethodsForTest;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
 @Tag("change user data")
 @Epic("Диплом 2")
 @Feature("Редактирование данных пользователя в Stellar Burgers")
 @DisplayName("Редактирование данных пользователя")
-public class ChangingDataTest {
+public class ChangingDataTest extends MethodsForTest {
     private String email;
     private String password;
     private String name;
@@ -57,13 +58,21 @@ public class ChangingDataTest {
     @Description("Редактирование email авторизованного пользователя. " +
             "ОР - email изменен")
     public void changeUserEmailWithAuthIsSuccess() {
-        String newEmail = "one_" + faker.internet().safeEmailAddress();
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
 
-        Response response = userAPI.updateUser(newEmail, password, name, token);
+        Response createUserResponse = createUniqueUser(email, password, name);
+        verifyUserCreation(createUserResponse, email, name);
+        String accessToken = createUserResponse.jsonPath().getString("accessToken");
+        String newEmail = generateUniqueEmail();
+        String requestBody = "{\"email\":\"" + newEmail + "\", \"name\":\"" + name + "\", \"password\":\"" + password + "\"}";
+        logRequest(accessToken, requestBody);
+        Response updateResponse = updateUserEmail(accessToken, newEmail, password, name);
 
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
-        userAPI.checkUserData(response, newEmail, password, name);
+        logResponse(updateResponse);
+        validateUpdateResponse(updateResponse, newEmail, name);
+        deleteUserByToken(accessToken);
     }
 
     @Test
@@ -71,31 +80,41 @@ public class ChangingDataTest {
     @Description("Редактирование пароля авторизованного пользователя. " +
             "ОР - пароль изменен")
     public void changeUserPassWithAuthIsSuccessTest() {
-        Response resetRequestResponse = userAPI.requestPasswordReset(email);
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
+        Response createUserResponse = createUniqueUser(email, password, name);
+        verifyUserCreation(createUserResponse, email, name);
 
-        checkResponse.checkStatusCode(resetRequestResponse, SC_OK);
-        checkResponse.checkSuccessStatus(resetRequestResponse, "true");
-        String newPassword = "two_" + faker.letterify("12345677");
-        String token = "";
-        Response changePasswordResponse = userAPI.resetPassword(newPassword, token);
-
-        checkResponse.checkStatusCode(changePasswordResponse, SC_OK);
-        checkResponse.checkSuccessStatus(changePasswordResponse, "true");
-        checkResponse.checkMessageText(resetRequestResponse, "Password successfully reset");
+        String accessToken = createUserResponse.jsonPath().getString("accessToken");
+        String newPassword = generateUniquePassword();
+        String requestBody = "{\"email\":\"" + email + "\", \"name\":\"" + name + "\", \"password\":\"" +newPassword + "\"}";
+        logRequestPassword(accessToken, requestBody);
+        Response updateResponse = updateUserPassword(accessToken, newPassword);
+        logResponsePassword(updateResponse);
+        validateUpdatePasswordResponse(updateResponse, newPassword);
+        deleteUserByToken(accessToken);
     }
 
-    @Test
+     @Test
     @DisplayName("Изменение имени с авторизацией")
     @Description("Редактирование имени авторизованного пользователя. " +
             "ОР - имя изменено")
     public void changeUserNameWithAuthIsSuccess() {
-        String newName = "tres_" + faker.name().firstName();
+         String email = generateUniqueEmail();
+         String password = generateUniquePassword();
+         String name = generateUniqueName();
+         Response createUserResponse = createUniqueUser(email, password, name);
+         verifyUserCreation(createUserResponse, email, name);
+         String accessToken = createUserResponse.jsonPath().getString("accessToken");
 
-        Response response = userAPI.updateUser(email, password, newName, token);
-
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
-        userAPI.checkUserData(response, email, password, newName);
+         String newName = generateUniqueName();
+         String requestBody = "{\"email\":\"" + email + "\", \"name\":\"" + newName + "\", \"password\":\"" + password + "\"}";
+         logRequestName(accessToken, requestBody);
+         Response updateResponse = updateUserName(accessToken, email, password, newName);
+         logResponseName(updateResponse);
+         validateUpdateNameResponse(updateResponse, newName, email);
+         deleteUserByToken(accessToken);
     }
 
     @Test
@@ -106,6 +125,7 @@ public class ChangingDataTest {
         String newEmail = "four_" + faker.internet().safeEmailAddress();
 
         Response response = userAPI.updateUser(newEmail, password, name);
+        response.then().log().all();
 
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
         checkResponse.checkSuccessStatus(response, "false");
@@ -120,6 +140,7 @@ public class ChangingDataTest {
         String newPassword = "five_" + faker.letterify("12345678");;
 
         Response response = userAPI.updateUser(email, newPassword, name);
+        response.then().log().all();
 
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
         checkResponse.checkSuccessStatus(response, "false");
@@ -134,6 +155,7 @@ public class ChangingDataTest {
         String newName = "six_" + faker.name().firstName();
 
         Response response = userAPI.updateUser(email, password, newName);
+        response.then().log().all();
 
         checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
         checkResponse.checkSuccessStatus(response, "false");

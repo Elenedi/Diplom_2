@@ -3,6 +3,7 @@ import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import io.qameta.allure.junit4.Tag;
 import io.restassured.response.Response;
+import methods.MethodsForTest;
 import org.example.operators.OperatorsCheck;
 import org.example.operators.OrderOperators;
 import org.example.operators.UserOperators;
@@ -13,12 +14,12 @@ import static org.apache.http.HttpStatus.*;
 import java.util.ArrayList;
 
 @Link(url = "https://code.s3.yandex.net/qa-automation-engineer/java/cheatsheets/paid-track/diplom/api-documentation.pdf")
-@Tag("register new user")
+@Tag("log in user")
 @Epic("Диплом 2")
-@Feature("Создание нового пользователя в Stellar Burgers")
-@DisplayName("Создание нового пользователя")
+@Feature("Логин пользователя в Stellar Burgers")
+@DisplayName("Логин пользователя")
 
-public class RegisterUserTest {
+public class RegisterUserTest extends MethodsForTest {
     private String email;
     private String password;
     private String name;
@@ -27,6 +28,8 @@ public class RegisterUserTest {
     private final UserOperators userAPI = new UserOperators();
     private final OperatorsCheck checkResponse = new OperatorsCheck();
     private final Faker faker = new Faker();
+    private final MethodsForTest userChanges = new MethodsForTest();
+    private MethodsForTest methodsUserLogin = new MethodsForTest();
 
     @Before
     @Step("Подготовка тестовых данных")
@@ -34,6 +37,11 @@ public class RegisterUserTest {
         this.email = faker.internet().safeEmailAddress();
         this.password = faker.letterify("12345678");
         this.name = faker.name().firstName();
+
+        Response response = userAPI.registerUser(email, password, name);
+        if (response.getStatusCode() == SC_OK) {
+            tokens.add(userAPI.getToken(response));
+        }
     }
 
     @After
@@ -47,91 +55,76 @@ public class RegisterUserTest {
     }
 
     @Test
-    @DisplayName("Регистрация нового пользователя")
-    @Description("Создание нового пользователя. " +
-            "ОР - пользователь создан")
-    public void registerUserIsSuccessTest() {
-        Response response = userAPI.registerUser(email, password, name);
-        if (response.getStatusCode() == SC_OK) {
-            tokens.add(userAPI.getToken(response));
-        }
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
+    @DisplayName("Логин пользователя")
+    @Description("Логин пользователя. " +
+            "ОР - логин зарегистрирован")
+    public void loginUserIsSuccessTest() {
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
+
+        Response response = createUniqueUser(email, password, name);
     }
 
     @Test
-    @DisplayName("Регистрация двух пользователей с одинаковыми данными")
-    @Description("Создание двух пользователей с одинаковыми данными. " +
-            "ОР - одинаковых пользователей создать нельзя.")
-    public void registerSameUserIsFailedTest() {
-        Response responseX = userAPI.registerUser(email, password, name);
-        Response responseY = userAPI.registerUser(email, password, name);
-        if (responseX.getStatusCode() == SC_OK) {
-            tokens.add(userAPI.getToken(responseX));
-        }
-        if (responseY.getStatusCode() == SC_OK) {
-            tokens.add(userAPI.getToken(responseY));
-        }
+    @DisplayName("Логин пользователя без email")
+    @Description("Тест API логин пользователя без email. " +
+            "ОР - логин не зарегистрирован")
+    public void loginUserWithoutEmailIsFailedTest() {
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
 
-        checkResponse.checkStatusCode(responseY, SC_FORBIDDEN);
-        checkResponse.checkSuccessStatus(responseY, "false");
-        checkResponse.checkMessageText(responseY,"User already exists");
+        Response response = createUniqueUserWithoutEmail(password, name);
+        userChanges.verifyUserCreationFailureEmail(response, "Email, password and name are required fields");
     }
 
     @Test
-    @DisplayName("Регистрация пользователя без email")
-    @Description("Регистрация пользователя без email. " +
-            "ОР - пользователя без email создать нельзя")
-    public void registerUserWithoutEmailIsFailedTest() {
-        Response response = userAPI.registerUser("", password, name);
-        if (response.getStatusCode() == SC_OK) {
-            tokens.add(userAPI.getToken(response));
-        }
-        checkResponse.checkStatusCode(response, SC_FORBIDDEN);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "Email, password and name are required fields");
+    @DisplayName("Логин пользователя без пароля")
+    @Description("Логин пользователя без пароля. " +
+            "ОР - логин не зарегистрирован")
+    public void loginUserWithoutPasswordIsFailedTest() {
+        String email = generateUniqueEmail();
+        String name = generateUniqueName();
+
+        Response response = createUniqueUserWithoutPassword(email, name);
+        userChanges.verifyUserCreationFailurePassword(response);
     }
 
     @Test
-    @DisplayName("Регистрация пользователя без пароля")
-    @Description("Регистрация пользователя без пароля. " +
-            "ОР - пользователя без пароля создать нельзя")
-    public void registerUserWithoutPasswordIsFailedTest() {
-        Response response = userAPI.registerUser(email, null, name);
-        if (response.getStatusCode() == SC_OK) {
-            tokens.add(userAPI.getToken(response));
-        }
-        checkResponse.checkStatusCode(response, SC_FORBIDDEN);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "Email, password and name are required fields");
+    @DisplayName("Логин пользователя c некорректным email")
+    @Description("Логин пользователя с некорректным email. " +
+            "ОР - логин не зарегистрирован")
+    public void loginUserWithIncorrectEmailIsFailedTest() {
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
+
+        Response createUserResponse = createUniqueUser(email, password, name);
+        verifyUserCreation(createUserResponse, email, name);
+
+        String accessToken = createUserResponse.jsonPath().getString("accessToken");
+        String invalidEmail = "invalid" + email;
+        Response loginResponse = methodsUserLogin.loginWithUser(invalidEmail, password, name);
+        MethodsForTest.verifyLoginWithInvalidCredentials(loginResponse);
+        deleteUserByToken(accessToken);
     }
 
     @Test
-    @DisplayName("Регистрация пользователя без имени")
-    @Description("Регистрация пользователя без имени. " +
-            "ОР - пользователя без имени создать нельзя")
-    public void registerUserWithoutNameIsFailedTest() {
-        Response response = userAPI.registerUser(email, password, null);
-        if (response.getStatusCode() == SC_OK) {
-            tokens.add(userAPI.getToken(response));
-        }
-        checkResponse.checkStatusCode(response, SC_FORBIDDEN);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "Email, password and name are required fields");
-    }
+    @DisplayName("Логин пользователя c некорректным паролем")
+    @Description("Логин пользователя с некорректным паролем. " +
+            "ОР - логин не зарегистрирован")
+    public void loginUserWithIncorrectPassIsFailedTest() {
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
 
-    @Test
-    @DisplayName("Регистрация пользователя без данных")
-    @Description("Регистрация пользователя без данных. " +
-            "ОР - пользователя без данных создать нельзя")
-    public void registerUserWithoutDataIsFailedTest() {
-        Response response = userAPI.registerUser("", null, null);
-        if (response.getStatusCode() == SC_OK) {
-            tokens.add(userAPI.getToken(response));
-        }
-        checkResponse.checkStatusCode(response, SC_FORBIDDEN);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response, "Email, password and name are required fields");
+        Response createUserResponse = createUniqueUser(email, password, name);
+        verifyUserCreation(createUserResponse, email, name);
+
+        String accessToken = createUserResponse.jsonPath().getString("accessToken");
+        String invalidPassword = "wrong" + password;
+        Response loginResponse = methodsUserLogin.loginWithUser(email, invalidPassword, name);
+        MethodsForTest.verifyLoginWithInvalidCredentials(loginResponse);
+        deleteUserByToken(accessToken);
     }
 }
-

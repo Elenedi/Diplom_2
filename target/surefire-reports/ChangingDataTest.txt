@@ -1,46 +1,11 @@
 -------------------------------------------------------------------------------
 Test set: ChangingDataTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 5.355 s <<< FAILURE! - in ChangingDataTest
-changeUserPasswordWithoutAuthIsSuccess(ChangingDataTest)  Time elapsed: 3.748 s  <<< FAILURE!
+Tests run: 6, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 21.115 s <<< FAILURE! - in ChangingDataTest
+changeUserNameWithoutAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.353 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
-Expected status code <200> but was <400>.
+Expected status code <200> but was <403>.
 
-	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
-
-changeUserEmailWithAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.317 s  <<< FAILURE!
-java.lang.AssertionError: 
-1 expectation failed.
-Expected status code <200> but was <400>.
-
-	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
-
-changeUserEmailWithoutAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.29 s  <<< FAILURE!
-java.lang.AssertionError: 
-1 expectation failed.
-Expected status code <200> but was <400>.
-
-	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
-
-changeUserNameWithoutAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.258 s  <<< FAILURE!
-java.lang.AssertionError: 
-1 expectation failed.
-Expected status code <200> but was <400>.
-
-	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
-
-changeUserPassWithAuthIsSuccessTest(ChangingDataTest)  Time elapsed: 0.233 s  <<< FAILURE!
-java.lang.AssertionError: 
-1 expectation failed.
-Expected status code <200> but was <400>.
-
-	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
-
-changeUserNameWithAuthIsSuccess(ChangingDataTest)  Time elapsed: 0.267 s  <<< FAILURE!
-java.lang.AssertionError: 
-1 expectation failed.
-Expected status code <200> but was <400>.
-
-	at ChangingDataTest.prepareTestData(ChangingDataTest.java:38)
+	at ChangingDataTest.prepareTestData(ChangingDataTest.java:39)
 

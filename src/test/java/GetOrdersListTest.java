@@ -3,6 +3,7 @@ import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import io.qameta.allure.junit4.Tag;
 import io.restassured.response.Response;
+import methods.MethodsForTest;
 import org.example.operators.OperatorsCheck;
 import org.example.operators.OrderOperators;
 import org.example.operators.UserOperators;
@@ -20,7 +21,7 @@ import static org.apache.http.HttpStatus.*;
 @Epic("Диплом 2")
 @Feature("Получение списка заказов в Stellar Burgers")
 @DisplayName("Получение списка заказов")
-public class GetOrdersListTest {
+public class GetOrdersListTest extends MethodsForTest {
     private String email;
     private String password;
     private String name;
@@ -30,35 +31,6 @@ public class GetOrdersListTest {
     private final OperatorsCheck checkResponse = new OperatorsCheck();
     private final Faker faker = new Faker();
 
-
-    @Before
-    @Step("Подготовка тестовых данных")
-    public void prepareTestData() {
-        this.email = faker.internet().safeEmailAddress();
-        this.password = faker.letterify("12345678");
-        this.name = faker.name().firstName();
-
-        Response response = userAPI.registerUser(email, password, name);
-        checkResponse.checkStatusCode(response, SC_OK);
-
-        if (response.getStatusCode() == SC_OK) {
-            token = userAPI.getToken(response);
-        }
-
-        response = orderAPI.getComponentsList();
-        checkResponse.checkStatusCode(response, SC_OK);
-        List<Components> components = response.body().as(ComponentsResponse.class).getData();
-
-        int numberOfComponents = faker.number().numberBetween(2, 6);
-        List<String> selectedComponents = new ArrayList<>();
-        for (int i = 0; i < numberOfComponents; i++) {
-            Components randomComponent = components.get(faker.number().numberBetween(0, components.size()));
-            selectedComponents.add(randomComponent.get_id());
-        }
-
-        response = orderAPI.createOrder(selectedComponents, token);
-        checkResponse.checkStatusCode(response, SC_OK);
-    }
 
     @After
     @Step("Удаление данных после теста")
@@ -74,6 +46,7 @@ public class GetOrdersListTest {
             "ОР - список заказов получен.")
     public void getAllOrdersIsSuccessTest() {
         Response response = orderAPI.getAllOrderList();
+        response.then().log().all();
 
         checkResponse.checkStatusCode(response, SC_OK);
         checkResponse.checkSuccessStatus(response, "true");
@@ -84,9 +57,25 @@ public class GetOrdersListTest {
     @Description("Получение списка заказов авторизованного пользователя. " +
             "ОР - список заказов получен.")
     public void getAuthUsersOrdersIsSuccessTest() {
-        Response response = orderAPI.getOrderList(token);
-        checkResponse.checkStatusCode(response, SC_OK);
-        checkResponse.checkSuccessStatus(response, "true");
+        String email = generateUniqueEmail();
+        String password = generateUniquePassword();
+        String name = generateUniqueName();
+
+        Response createUserResponse = createUniqueUser(email, password, name);
+        createUserResponse.then().statusCode(200);
+
+        Response loginResponse = loginWithUser(email, password, name);
+        loginResponse.then().statusCode(200);
+        String accessToken = loginResponse.jsonPath().getString("accessToken");
+        Response orderResponse = MethodsForTest.createOrderWithIngredients(accessToken);
+        orderResponse.then().log().all();
+        MethodsForTest.verifyOrderCreation(orderResponse);
+        try {
+            Response ordersResponse = MethodsForTest.getUserOrders(accessToken);
+            MethodsForTest.verifyUserOrdersRetrieval(ordersResponse);
+        } finally {
+            deleteUserByToken(accessToken);
+        }
     }
 
     @Test
@@ -94,9 +83,7 @@ public class GetOrdersListTest {
     @Description("Получение списка заказов неавторизованного пользователя. " +
             "ОР - список заказов не получен, сообщение об ошибке.")
     public void getNotAuthUsersOrdersIsSuccessTest() {
-        Response response = orderAPI.getOrderList("");
-        checkResponse.checkStatusCode(response, SC_UNAUTHORIZED);
-        checkResponse.checkSuccessStatus(response, "false");
-        checkResponse.checkMessageText(response,"You should be authorised");
+        Response ordersResponse = MethodsForTest.getUserOrdersWithoutAuthorization();
+        MethodsForTest.verifyUnauthorizedResponse(ordersResponse);
     }
 }
