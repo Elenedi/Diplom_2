@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: CreateOrderTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 6.701 s <<< FAILURE! - in CreateOrderTest
+createOrderWithInvalidIngredientsHash(CreateOrderTest)  Time elapsed: 1.406 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <500> but was <400>.
+
+	at CreateOrderTest.createOrderWithInvalidIngredientsHash(CreateOrderTest.java:129)
+
+createOrderWithoutAuthAndRandomComponentsTest(CreateOrderTest)  Time elapsed: 0.256 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <200>.
+
+	at CreateOrderTest.createOrderWithoutAuthAndRandomComponentsTest(CreateOrderTest.java:75)
+
+createOrderWithoutAuthAndWithoutComponentsTest(CreateOrderTest)  Time elapsed: 0.172 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <400>.
+
+	at CreateOrderTest.createOrderWithoutAuthAndWithoutComponentsTest(CreateOrderTest.java:106)
+
